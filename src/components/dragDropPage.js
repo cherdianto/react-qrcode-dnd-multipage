@@ -215,7 +215,7 @@ function DragDropPage(props) {
                 endOnly: true
             })
         ],
-        autoScroll: false,
+        autoScroll: true,
         listeners: { move: dragMoveListener, start: dragStartListener, end: dragEndListener}
     });
     setDoUpdate(doUpdate + 1); // flag untuk update tampilan setelah ada perubahan dari interact
