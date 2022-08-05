@@ -1,0 +1,67 @@
+@import './remixicon';
+
+.docRender {
+    position: relative;
+}
+
+.qr-code {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.dropactive {
+    border: dashed 4px transparent;
+    border-color: rgb(255, 94, 0);
+}
+
+.droptarget {
+    border: dashed 4px transparent;
+    border-color: rgb(35, 223, 47);
+  }
+
+  .candrop {
+    color: #000;
+    background-color: #4e4;
+  }
+
+  .draggable {
+    border: 2px dashed cyan;
+  }
+
+  .resizable {
+    border: 2px dashed blue;
+  }
+
+
+  .delete-button {
+    position: absolute;
+    top: -12px;
+    left: -12px;
+    z-index: 1000;
+    border-radius: 50%;
+    background-color: blue;
+    color: white;
+    // font-weight: bold;
+    border: none;
+    &:hover {
+      background-color: red;
+    }
+  }
+
+  .qr-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+
+  .pos-relative {
+    position: relative;
+  }
+
+  .show-array {
+    background-color: lightgrey;
+    padding: 20px;
+    text-align: left;
+  }
