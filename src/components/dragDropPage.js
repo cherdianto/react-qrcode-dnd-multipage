@@ -12,6 +12,7 @@ import useStateRef  from 'react-usestateref'
 // react-pdf
 import { Document, Page } from 'react-pdf/dist/esm/entry.webpack5';
 import interact from "interactjs";
+import { computeHeadingLevel } from "@testing-library/react";
 
 // load document 
 // import { b64toBlob } from "./helpers/b64toBlob";
@@ -200,7 +201,8 @@ function DragDropPage(props) {
           }),
       ],
       listeners: {
-        move: resizeMoveListener
+        move: resizeMoveListener,
+        end: resizeEndListener
       }
     });
 
@@ -238,6 +240,38 @@ function DragDropPage(props) {
     })
   }
 
+  // let x = parseFloat(target.getAttribute("data-x")) || 0;
+  // let y = parseFloat(target.getAttribute("data-y")) || 0;
+
+  // // update the element's style
+  // target.style.width = `${event.rect.width}px`;
+  // target.style.height = `${event.rect.height}px`;
+  // // target.style.fontSize = `${event.rect.height}px`;
+
+  // // translate when resizing from top or left edges
+  // x += event.deltaRect.left;
+  // y += event.deltaRect.top;
+
+  // target.style.webkitTransform = target.style.transform = `translate(${x}px,${y}px)`;
+
+  function resizeEndListener(event){
+    const itemId = event.currentTarget.id;
+    const itemdraggablestemp = itemdraggablesRef.current;
+
+    itemdraggablestemp.find((item, index) => {
+      if(item.id === itemId) {
+        let width = parseFloat(event.target.style.width) || 0;
+        let height = parseFloat(event.target.style.height) || 0;
+        itemdraggablestemp[index] = {...itemdraggablestemp[index], width: width, height: height }
+        // console.log(itemdraggablestemp)
+        setItemdraggables([...itemdraggablestemp])
+        // console.log(itemdraggablesRef.current)
+      }else {
+        // console.log('error')
+      }
+    })
+  }
+
   useEffect(() => {
     setShowUpdate(JSON.stringify(itemdraggablesRef.current, null, 2))
   },[itemdraggablesRef.current])
@@ -255,6 +289,8 @@ function DragDropPage(props) {
                 posX= {drag.posX}
                 posY = {drag.posY}
                 index = {idx}
+                width = {drag.width}
+                height = {drag.height}
               />
             )
           })
@@ -263,13 +299,16 @@ function DragDropPage(props) {
     )
   }
 
-  const QrCodeElement = ({ id, posX, posY, idx }) => {
+  const QrCodeElement = ({ id, posX, posY, width, height }) => {
     const transf = 'translate('+ posX+'px,'+posY+'px)'
+    const newWidth = `${width}px`;
+    const newHeight = `${height}px`;
+    // console.log(newWidth)
     return (
       <>
         <div 
           className="qr-code draggable resizable" 
-          style={{width:'90px', height: '90px', minWidth: '90px', minHeight: '90px', transform: transf}}
+          style={{width:newWidth, height: newHeight, minWidth: '90px', minHeight: '90px', transform: transf}}
           id={id} data-x={posX} data-y={posY}>
           <div className="pos-relative">
             <Button itemdrag={id} onClick={(e) => {handleDeleteBtn(e)}} size="sm" className="delete-button"><i className="ri-delete-bin-5-line"></i></Button>
