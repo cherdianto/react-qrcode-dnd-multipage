@@ -21,7 +21,7 @@ import interact from "interactjs";
 
 function dragMoveListener(event){
     var target = event.target;
-    console.log(target)
+    // console.log(target)
     var x= (parseFloat(target.getAttribute("data-x")) || 0) + event.dx;
     var y= (parseFloat(target.getAttribute("data-y")) || 0) + event.dy;
 
@@ -33,21 +33,21 @@ function dragMoveListener(event){
     target.setAttribute("data-x", x);
     target.setAttribute("data-y", y);
 
-    console.log(x, y)
+    // console.log(x, y)
 
 }
 
 
 
 function dragStartListener(event){
-  console.log('start move')
+  // console.log('start move')
   event.target.style.border = "4px dashed blue"
 }
 
 function resizeMoveListener(event){
   const target = event.target;
-  console.log('resize routine')
-  console.log(event.currentTarget.id)
+  // console.log('resize routine')
+  // console.log(event.currentTarget.id)
   // const { x: stateX, y: stateY } = this.state;
   let x = parseFloat(target.getAttribute("data-x")) || 0;
   let y = parseFloat(target.getAttribute("data-y")) || 0;
@@ -95,10 +95,10 @@ function DragDropPage(props) {
   let file, reader = new FileReader();
 
   const handleFileChange = async(e) => {
-    console.log('file inputed')
+    // console.log('file inputed')
     file = e.target.files[0];
     setFileName(e.target.files[0].name);
-    console.log(fileName)
+    // console.log(fileName)
     let data = null;
 
     if (typeof(file) != 'undefined'){
@@ -131,8 +131,8 @@ function DragDropPage(props) {
   const handleQrClick = () => {
     // displayQr === 'none' ? setDisplayQr('block') : setDisplayQr('none')
     // setOpen(false)
-    console.log(itemdraggables)
-    console.log(itemdraggablesRef.current)
+    // console.log(itemdraggables)
+    // console.log(itemdraggablesRef.current)
     setItemdraggables((itemdraggables) => [
       ...itemdraggables,
       { id: `drag-${itemdraggables.length}`,
@@ -142,7 +142,7 @@ function DragDropPage(props) {
         posX: null,
         posY: null,}
     ]);
-    console.log(itemdraggables)
+    // console.log(itemdraggables)
   }
 
   useEffect(() => {
@@ -233,7 +233,7 @@ function DragDropPage(props) {
         setItemdraggables([...itemdraggablestemp])
         // console.log(itemdraggablesRef.current)
       }else {
-        console.log('error')
+        // console.log('error')
       }
     })
   }
