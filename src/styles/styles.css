@@ -9185,6 +9185,21 @@
   z-index: 1000;
 }
 
+.qr-desc {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  justify-content: center;
+}
+.qr-desc .pos-relative p {
+  margin: 0;
+  padding: 0;
+}
+
 .dropactive {
   border: dashed 4px transparent;
   border-color: rgb(255, 94, 0);
@@ -9219,6 +9234,20 @@
   border: none;
 }
 .delete-button:hover {
+  background-color: red;
+}
+
+.delete-button-desc {
+  position: absolute;
+  top: -25px;
+  left: -25px;
+  z-index: 1000;
+  border-radius: 50%;
+  background-color: blue;
+  color: white;
+  border: none;
+}
+.delete-button-desc:hover {
   background-color: red;
 }
 

@@ -137,9 +137,23 @@ function DragDropPage(props) {
     setItemdraggables((itemdraggables) => [
       ...itemdraggables,
       { id: `drag-${itemdraggables.length}`,
+        item: 'qrcode',
         page: pageNumber,
         width: null,
         height: null,
+        posX: null,
+        posY: null,}
+    ]);
+    // console.log(itemdraggables)
+  }
+
+  const handleQrDescClick = () => {
+    setItemdraggables((itemdraggables) => [
+      ...itemdraggables,
+      { id: `drag-${itemdraggables.length}`,
+        item: 'qrdesc',
+        page: pageNumber,
+        fontSize: 10,
         posX: null,
         posY: null,}
     ]);
@@ -276,12 +290,12 @@ function DragDropPage(props) {
     setShowUpdate(JSON.stringify(itemdraggablesRef.current, null, 2))
   },[itemdraggablesRef.current])
 
-  function QrDraggables ({ elements, page }){
+  function QrDraggables ({ elements, page, item }){
     return (
       <>
         { elements && 
           elements.map((drag, idx) => {
-            if( idx !== null && drag.page === page)
+            if( idx !== null && drag.page === page && drag.item === 'qrcode')
             return (
               <QrCodeElement
                 id={drag.id}
@@ -313,6 +327,48 @@ function DragDropPage(props) {
           <div className="pos-relative">
             <Button itemdrag={id} onClick={(e) => {handleDeleteBtn(e)}} size="sm" className="delete-button"><i className="ri-delete-bin-5-line"></i></Button>
             <img src="/qrcode.png" width={'100%'} alt="dummie qrcode"  className="d-flex mx-auto justify-content-center qr-image" />
+          </div>
+        </div>
+      </>
+    )
+  }
+
+  // QR Description create
+  function QrDescDraggables ({ elements, page, item }){
+    return (
+      <>
+        { elements && 
+          elements.map((drag, idx) => {
+            if( idx !== null && drag.page === page && drag.item === 'qrdesc')
+            return (
+              <QrDescriptionElement
+                id={drag.id}
+                key={`draggable-${idx}`}
+                posX= {drag.posX}
+                posY = {drag.posY}
+                fontSize ={drag.fontSize}
+              />
+            )
+          })
+        }
+      </>
+    )
+  }
+
+  // QR description element
+  const QrDescriptionElement = ({ id, posX, posY, fontSize}) => {
+    const transf = 'translate('+ posX+'px,'+posY+'px)'
+    const newFontSize = `${fontSize}px`;
+    // console.log(newWidth)
+    return (
+      <>
+        <div 
+          className="qr-desc draggable" 
+          style={{fontSize: newFontSize, transform: transf}}
+          id={id} data-x={posX} data-y={posY}>
+          <div className="pos-relative">
+            <Button itemdrag={id} onClick={(e) => {handleDeleteBtn(e)}} size="sm" className="delete-button-desc"><i className="ri-delete-bin-5-line"></i></Button>
+            <p>https://science.uii.ac.id/v/AKA123321123</p>
           </div>
         </div>
       </>
@@ -357,7 +413,8 @@ function DragDropPage(props) {
               <Row>
                 <div className="card p-3 docRenderContainer d-flex justify-content-center h-100 " style={{backgroundColor:'lightgrey'}}>
                     <div className="cardBody docRender" ref={ref}>
-                        <QrDraggables elements={itemdraggablesRef.current} page={pageNumber} />
+                        <QrDraggables elements={itemdraggablesRef.current} page={pageNumber} item='qrcode'/>
+                        <QrDescDraggables elements={itemdraggablesRef.current} page={pageNumber} item='qrdesc'/>
                     
                         <div>
                             <Document 
@@ -386,8 +443,9 @@ function DragDropPage(props) {
               <Row>
                 <div className="mx-auto text-center justify-content-center py-3" >  
                   <h3 className="text-center">QR Code Properties</h3>
-                  <Row className="mt-5 d-flex justify-content-center">
-                    <Button className="btn-sm w-25" onClick={handleQrClick}>Add QR Code</Button>
+                  <Row className="mt-5 d-flex justify-content-center flex-column align-items-center gap-4">
+                    <Button className="btn-sm w-50 mx-3" onClick={handleQrClick}>Add QR Code</Button>
+                    <Button className="btn-sm w-50 mx-3" onClick={handleQrDescClick}>Add QR Code Description</Button>
                   </Row>
                   <Row>
                     <pre className="mt-5 show-array">{showUpdateRef.current}</pre>
